@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Riya - From Ravi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #ffeef8 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #4a4a4a;
+        }
+        
+        .dancing-font {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .heart {
+            position: relative;
+            width: 100px;
+            height: 90px;
+            margin: 50px auto;
+        }
+        
+        .heart:before, .heart:after {
+            position: absolute;
+            content: "";
+            left: 50px;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            background: #ff6b6b;
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+        
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+        
+        .envelope {
+            width: 200px;
+            height: 120px;
+            background: #fff;
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .envelope:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-top: 70px solid #ffc8c8;
+            transform-origin: top;
+            transform: rotateX(0deg);
+            transition: all 0.3s 0.3s ease;
+            z-index: 2;
+        }
+        
+        .envelope.open:before {
+            transform: rotateX(180deg);
+        }
+        
+        .letter {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            right: 20px;
+            bottom: 10px;
+            background: #fff;
+            transition: all 0.3s ease;
+            padding: 15px;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .envelope.open .letter {
+            transform: translateY(-100px);
+        }
+        
+        .heartbeat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 105, 180, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .particle.heart {
+            background: transparent;
+            font-size: 20px;
+            color: #ff6b6b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .star {
+            position: absolute;
+            background: rgba(255,255,255,0.7);
+            border-radius: 50%;
+            animation: twinkle var(--duration, 5s) infinite ease-in-out;
+            opacity: 0;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        
+        .candle {
+            width: 30px;
+            height: 100px;
+            background: linear-gradient(to bottom, #fff, #ffd700);
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+        
+        .flame {
+            width: 15px;
+            height: 30px;
+            background: linear-gradient(to top, #ff6b00, #ffcc00);
+            border-radius: 10px 10px 5px 5px;
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px #ff6b00, 0 0 30px #ffcc00;
+            animation: flicker 2s infinite alternate;
+            cursor: pointer;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { height: 30px; }
+            50% { height: 35px; }
+        }
+        
+        .candle.glow {
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
+        }
+        
+        .message-box {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        
+        .visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            background-color: #f00;
+            opacity: 0;
+            z-index: 9999;
+            animation: confetti-fall 3s linear forwards;
+        }
+        
+        .cracker {
+            position: fixed;
+            width: 10px;
+            height: 20px;
+            background: linear-gradient(to bottom, #FFD700, #FF6600);
+            border-radius: 2px;
+            animation: cracker-burst 1s ease-out forwards;
+            z-index: 9998;
+            transform: scale(0);
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        @keyframes cracker-burst {
+            0% { transform: scale(0); opacity: 0; }
+            20% { transform: scale(1); opacity: 1; }
+            100% { 
+                transform: scale(0) translate(var(--tx, 0), var(--ty, 0)); 
+                opacity: 0;
+                background-color: #FF4136;
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center py-8 px-4">
+    <div class="particles-container" id="stars"></div>
+    
+    <div class="text-center mb-12">
+        <div class="bg-gradient-to-r from-pink-500 to-purple-600 p-4 md:p-6 rounded-xl shadow-lg inline-block mx-auto">
+            <h1 class="text-3xl md:text-4xl font-bold text-white dancing-font mb-2">Happy Birthday Riya ❤️</h1>
+            <p class="text-lg text-white/90">From your <span class="text-white font-medium">Ravi{ur spark}</span></p>
+        </div>
+    </div>
+    
+    <div class="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20 mb-16">
+        <div class="flex flex-col items-center">
+            <div class="heart heartbeat mb-4"></div>
+            <p class="text-lg font-medium text-gray-700 text-center max-w-md">Distance means so little when someone means so much.<br>Even miles apart, you're always in my heart.</p>
+        </div>
+        
+        <div class="envelope" id="envelope">
+            <div class="letter">
+                <h3 class="text-lg font-bold text-pink-500 mb-2 dancing-font">To My Dearest Riya,</h3>
+                <p class="mb-3">Wishing you the happiest of birthdays today, tomorrow, and all the days to come.</p>
+                <p class="mb-3">Though we're apart today, know that I'm thinking of you every moment and can't wait until we're together again.</p>
+                <p class="font-medium dancing-font text-right">Yours always,<br>Ravi{ur spark}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center mb-4">
+        <p class="text-lg mb-4">Light a candle to celebrate your special day:</p>
+        <div class="candle" id="candle">
+            <div class="flame" id="flame" onclick="toggleCandle()"></div>
+        </div>
+        <button onclick="makeAWish()" class="mt-8 px-6 py-3 bg-pink-500 text-white font-medium rounded-full shadow-lg hover:bg-pink-600 transition-all">Make A Wish</button>
+    </div>
+    
+    <div class="message-box my-12" id="distanceMessage">
+        <h3 class="text-2xl font-bold text-center text-pink-500 mb-4 dancing-font">To the Most Amazing Girlfriend</h3>
+        <p class="mb-4">On your special day, I want you to know how incredibly proud I am to call you mine. Your strength, your kindness, and your beautiful soul inspire me every day.</p>
+        <p class="mb-4">This long distance might keep us physically apart, but nothing can diminish the brightness you bring to my life. Each day with you, even miles apart, is a gift.</p>
+        <p class="text-center font-medium">Wishing you endless happiness, unforgettable adventures,<br>and dreams that turn into reality.<br>Happy Birthday Riya!</p>
+    </div>
+    
+    <div class="w-full max-w-6xl mx-auto mb-16 grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+        <!-- Photo Column (smaller now) -->
+        <div class="relative flex">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-pink-100/40 to-pink-200/40 z-10 rounded-xl"></div>
+            <img src="https://i.postimg.cc/sxqr8X9F/Screenshot-2025-08-08-160054.png" alt="Happy Birthday Riya" class="w-full h-[300px] object-cover md:h-[420px] max-w-md mx-auto rounded-xl shadow-xl z-0"/>
+            <div class="absolute inset-0 flex items-center justify-center z-20 p-4 text-center">
+                <h2 class="text-3xl font-bold text-white dancing-font drop-shadow-lg">Happy Birthday Riya ❤️</h2>
+            </div>
+        </div>
+        
+        <!-- Video Column -->
+        <div class="bg-gray-100 rounded-xl shadow-xl overflow-hidden flex">
+            <video controls autoplay loop class="w-full h-[300px] md:h-[400px] object-cover rounded-xl">
+                <source src="https://github.com/quantumxspark-cloud/cat/raw/refs/heads/main/cat.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+    
+    <div class="bg-pink-100 rounded-full p-3 mb-6">
+        <audio id="bgMusic" loop>
+            <source src="YOUR_CHOSEN_SONG_URL_HERE" type="audio/mpeg">
+        </audio>
+        <button onclick="toggleMusic()" class="bg-pink-500 text-white px-4 py-2 rounded-full flex items-center">
+            <span id="musicBtn">🎵 Play Your Song</span>
+        </button>
+    </div>
+    
+    <footer class="text-center text-gray-500 text-sm mt-8">
+        <p>Made with love by Ravi for Riya's special day ❤️</p>
+        <p>Even the greatest distance cannot diminish true love.</p>
+    </footer>
+
+    <script>
+        // Create stars
+        // Add cracker explosion sound effect URL
+        const CRACKER_SOUND_URL = 'https://assets.mixkit.co/sfx/preview/mixkit-explosion-firework-1681.mp3';
+        function createStars() {
+            const container = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.width = `${Math.random() * 4 + 2}px`;
+                star.style.height = star.style.width;
+                star.style.setProperty('--duration', `${Math.random() * 5 + 3}s`);
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(star);
+            }
+        }
+        
+        // Envelope interaction
+        const envelope = document.getElementById('envelope');
+        envelope.addEventListener('click', function() {
+            this.classList.toggle('open');
+        });
+        
+        // Candle interaction
+        function toggleCandle() {
+            const candle = document.getElementById('candle');
+            candle.classList.toggle('glow');
+            
+            if (candle.classList.contains('glow')) {
+                document.getElementById('flame').style.animation = 'flicker 1s infinite alternate';
+            } else {
+                document.getElementById('flame').style.animation = 'none';
+            }
+        }
+        
+        // Make a wish function with confetti and crackers
+        function makeAWish() {
+            // Show hidden message
+            document.getElementById('distanceMessage').classList.add('visible');
+            
+            // Create confetti
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+                document.body.appendChild(confetti);
+            }
+            
+            // Create crackers
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const cracker = document.createElement('div');
+                    cracker.classList.add('cracker');
+                    cracker.style.left = `${Math.random() * 90 + 5}vw`;
+                    cracker.style.top = `${Math.random() * 50 + 20}vh`;
+                    cracker.style.setProperty('--tx', `${(Math.random() - 0.5) * 200}px`);
+                    cracker.style.setProperty('--ty', `${(Math.random() - 0.5) * 200}px`);
+                    cracker.style.animationDelay = `${Math.random() * 0.5}s`;
+                    document.body.appendChild(cracker);
+                    
+                    setTimeout(() => {
+                        cracker.remove();
+                    }, 1000);
+                }, Math.random() * 1000);
+            }
+            
+            // Play cracker sound
+            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-explosion-firework-1681.mp3');
+            audio.volume = 0.2;
+            audio.play();
+            
+            setTimeout(() => {
+                const confettiElements = document.querySelectorAll('.confetti');
+                confettiElements.forEach(el => el.remove());
+            }, 5000);
+            
+            if (!document.getElementById('candle').classList.contains('glow')) {
+                toggleCandle();
+            }
+        }
+        
+        let musicPlaying = false;
+        const songs = [
+            {url: "YOUR_PRIMARY_SONG_URL", name: "Favorite Song"},
+            {url: "YOUR_SECOND_SONG_URL", name: "Special Song"}
+        ];
+        let currentSongIndex = 0;
+
+        function changeSong() {
+            const music = document.getElementById('bgMusic');
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            music.src = songs[currentSongIndex].url;
+            if(musicPlaying) {
+                music.pause();
+                music.play();
+            }
+        }
+        
+        // Toggle background music
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.getElementById('musicBtn');
+            if(musicPlaying) {
+                music.pause();
+                btn.textContent = '🎵 Play Music';
+            } else {
+                music.play();
+                btn.textContent = '🔇 Pause Song';
+            }
+            musicPlaying = !musicPlaying;
+        }
+        
+        // Create animated particles
+        function createParticles() {
+            const container = document.getElementById('stars');
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    if(Math.random() > 0.7) {
+                        particle.classList.add('heart');
+                        particle.innerHTML = '❤️';
+                    }
+                    
+                    particle.style.width = `${Math.random() * 20 + 5}px`;
+                    particle.style.height = particle.style.width;
+                    particle.style.left = `${Math.random() * 100}vw`;
+                    particle.style.top = `${Math.random() * 100}vh`;
+                    
+                    container.appendChild(particle);
+                    animateParticle(particle);
+                }, i * 300);
+            }
+        }
+        
+        function animateParticle(particle) {
+            const duration = Math.random() * 15 + 10;
+            const xMovement = (Math.random() - 0.5) * 200;
+            const yMovement = Math.random() * -100 - 50;
+            
+            particle.style.transition = `all ${duration}s linear`;
+            particle.style.opacity = '0';
+            particle.style.transform = `translate(${xMovement}px, ${yMovement}px)`;
+            
+            setTimeout(() => {
+                particle.remove();
+                if(Math.random() > 0.5) createParticles();
+            }, duration * 1000);
+        }
+        
+        // Initialize
+        window.onload = function() {
+            createParticles();
+            
+            // Show distance message after slight delay
+            setTimeout(() => {
+                document.getElementById('distanceMessage').classList.add('visible');
+            }, 500);
+        };
+    </script>
+</body>
+</html>
